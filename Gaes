@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kejutan Ulang Tahun!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0c10;
+            color: #c5c6c7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            background: rgba(19, 21, 26, 0.8);
+            padding: 3rem;
+            border-radius: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(73, 80, 87, 0.5);
+            max-width: 600px;
+            width: 90%;
+            animation: fadeIn 1s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #66fcf1;
+            text-shadow: 0 0 10px #66fcf1, 0 0 20px #66fcf1;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn {
+            background: linear-gradient(90deg, #45a29e, #66fcf1);
+            color: #0b0c10;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 15px rgba(102, 252, 241, 0.3);
+            margin-top: 2rem;
+            z-index: 20;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 252, 241, 0.5);
+        }
+
+        .surprise-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            animation: surpriseIn 0.5s forwards;
+            background: rgba(11, 12, 16, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes surpriseIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .surprise-text {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #ff6b6b;
+            text-shadow: 0 0 20px #ff6b6b;
+            animation: tada 1s ease-in-out;
+        }
+
+        @keyframes tada {
+            from { transform: scale3d(1, 1, 1); }
+            10%, 20% { transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg); }
+            30%, 50%, 70%, 90% { transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg); }
+            40%, 60%, 80% { transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg); }
+            to { transform: scale3d(1, 1, 1); }
+        }
+
+        .surprise-message {
+            margin-top: 1rem;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+
+        /* Confetti Animation */
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #66fcf1;
+            opacity: 0;
+            animation: confetti-fall 3s forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { opacity: 1; transform: translateY(-100vh) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+        }
+
+        /* Balloon Animation */
+        .balloon {
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            background-color: #66fcf1;
+            border-radius: 50%;
+            bottom: -100px;
+            animation: balloon-float 10s ease-in-out infinite;
+            transform-origin: bottom center;
+            z-index: 5;
+            box-shadow: inset -10px -10px 0px rgba(0,0,0,0.1);
+        }
+
+        .balloon::before {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 80px;
+            background-color: #c5c6c7;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes balloon-float {
+            0% { bottom: -100px; transform: rotate(-5deg); }
+            50% { transform: translateY(-500px) rotate(5deg); }
+            100% { bottom: 120vh; transform: translateY(-1000px) rotate(-5deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="main-title">Ada Kejutan Untukmu!</h1>
+    <button class="btn" id="surprise-btn">Klik Aku!</button>
+</div>
+
+<div class="surprise-container" id="surprise-box">
+    <h2 class="surprise-text">SELAMAT ULANG TAHUN!</h2>
+    <p class="surprise-message">Semoga hari spesialmu penuh dengan kebahagiaan dan tawa!</p>
+</div>
+
+<script>
+    const surpriseBtn = document.getElementById('surprise-btn');
+    const surpriseBox = document.getElementById('surprise-box');
+    const mainTitle = document.getElementById('main-title');
+    const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+
+    surpriseBtn.addEventListener('click', () => {
+        surpriseBox.style.display = 'flex';
+        mainTitle.style.display = 'none';
+        surpriseBtn.style.display = 'none';
+
+        // Play audio
+        audio.play();
+
+        // Create confetti and balloons
+        createConfetti(150);
+        createBalloons(15);
+        
+        // Hide surprise box after a delay
+        setTimeout(() => {
+            surpriseBox.style.display = 'none';
+            mainTitle.style.display = 'block';
+            surpriseBtn.style.display = 'block';
+            audio.pause();
+            audio.currentTime = 0;
+            // Remove confetti and balloons
+            document.querySelectorAll('.confetti-piece, .balloon').forEach(el => el.remove());
+        }, 10000); // 10 seconds
+    });
+
+    function createConfetti(count) {
+        for (let i = 0; i < count; i++) {
+            const piece = document.createElement('div');
+            piece.classList.add('confetti-piece');
+            piece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 75%)`;
+            piece.style.left = `${Math.random() * 100}vw`;
+            piece.style.animationDelay = `${Math.random() * 2}s`;
+            piece.style.animationDuration = `${2 + Math.random() * 2}s`;
+            document.body.appendChild(piece);
+        }
+    }
+
+    function createBalloons(count) {
+        for (let i = 0; i < count; i++) {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+            balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 75%, 65%)`;
+            balloon.style.left = `${Math.random() * 100}vw`;
+            balloon.style.animationDelay = `${Math.random() * 5}s`;
+            document.body.appendChild(balloon);
+        }
+    }
+</script>
+
+</body>
+</html>
